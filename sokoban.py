@@ -38,6 +38,7 @@ def transferToGameState(layout):
             elif layout[irow][icol] == 'B': layout[irow][icol] = 3 # box
             elif layout[irow][icol] == '.': layout[irow][icol] = 4 # goal
             elif layout[irow][icol] == 'X': layout[irow][icol] = 5 # box on goal
+            elif layout[irow][icol] == '+': layout[irow][icol] = 6 # player on goal
         colsNum = len(layout[irow])
         if colsNum < maxColsNum:
             layout[irow].extend([1 for _ in range(maxColsNum-colsNum)]) 
@@ -45,7 +46,7 @@ def transferToGameState(layout):
 
 def PosOfPlayer(gameState):
     """Return the position of agent"""
-    return tuple(np.argwhere(gameState == 2)[0]) # e.g. (2, 2)
+    return tuple(np.argwhere((gameState == 2) | (gameState == 6))[0]) # e.g. (2, 2)
 
 def PosOfBoxes(gameState):
     """Return the positions of boxes"""
@@ -57,7 +58,7 @@ def PosOfWalls(gameState):
 
 def PosOfGoals(gameState):
     """Return the positions of goals"""
-    return tuple(tuple(x) for x in np.argwhere((gameState == 4) | (gameState == 5))) # e.g. like those above
+    return tuple(tuple(x) for x in np.argwhere((gameState == 4) | (gameState == 5) | (gameState == 6))) # e.g. like those above
 
 def isEndState(posBox):
     """Check if all boxes are on the goals (i.e. pass the game)"""
